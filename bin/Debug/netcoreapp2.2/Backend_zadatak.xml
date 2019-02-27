@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BackEnd_zadatak</name>
+    </assembly>
+    <members>
+        <member name="M:BackEnd_zadatak.Controllers.DevicesController.CreateOrUpdateDevice(BackEnd_zadatak.Dtos.DeviceForCreationOrUpdate)">
+            <summary>
+            Creates or updates device and its properties depending on the presence of id
+            </summary>
+            <param name="deviceDto">when creating device, set id field of device and its properties to null, or delete them
+            but don't forget to provide appropriate ids when update</param>
+        </member>
+        <member name="M:BackEnd_zadatak.Controllers.DevicesController.GetDevice(System.Int32)">
+            <summary>
+            Retrieves the device by its Id.
+            </summary>
+            <param name="id">the id of the device we want to return</param>
+            <returns>returns device with its properties</returns>
+        </member>
+        <member name="M:BackEnd_zadatak.Controllers.DevicesController.DeleteDevice(System.Int32)">
+            <summary>
+            Deletes the device by its Id
+            </summary>
+            <param name="id">the id of the device we want to delete</param>
+        </member>
+        <member name="M:BackEnd_zadatak.Controllers.DevicesController.GetDevicesByCriteria(BackEnd_zadatak.Helpers.DeviceParams)">
+            <summary>
+            Returns devices based on specified criteria
+            </summary>
+        </member>
+        <member name="M:BackEnd_zadatak.Controllers.DeviceTypesController.CreateOrUpdateDeviceType(BackEnd_zadatak.Dtos.DeviceTypeToCreateOrUpdate)">
+            <summary>
+            Creates or updates device type and its properties depending on the presence of id
+            </summary>
+            <param name="deviceTypeDto">when creating device type, set id field of device type and its properties to null, or delete them
+            but don't forget to provide appropriate ids when update</param>
+        </member>
+        <member name="M:BackEnd_zadatak.Controllers.DeviceTypesController.DeleteDeviceType(System.Int32)">
+            <summary>
+            Deletes the device type by its Id.
+            </summary>
+            <param name="id">the id of the device type we want to delete</param>
+        </member>
+        <member name="M:BackEnd_zadatak.Controllers.DeviceTypesController.GetDeviceType(System.Int32)">
+            <summary>
+            Retrieves the device type by its Id.
+            </summary>
+            <param name="id">the id of the device type we want to return</param>
+            <returns>returns device type with its properties</returns>
+        </member>
+        <member name="M:BackEnd_zadatak.Controllers.DeviceTypesController.GetDeviceTypes">
+            <summary>
+            Returns device types
+            </summary>
+        </member>
+    </members>
+</doc>

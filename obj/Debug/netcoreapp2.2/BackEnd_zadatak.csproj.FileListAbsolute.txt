@@ -1,0 +1,15 @@
+C:\Users\tijana\Desktop\BackEnd_zadatak\bin\Debug\netcoreapp2.2\BackEnd_zadatak.deps.json
+C:\Users\tijana\Desktop\BackEnd_zadatak\bin\Debug\netcoreapp2.2\BackEnd_zadatak.runtimeconfig.json
+C:\Users\tijana\Desktop\BackEnd_zadatak\bin\Debug\netcoreapp2.2\BackEnd_zadatak.runtimeconfig.dev.json
+C:\Users\tijana\Desktop\BackEnd_zadatak\bin\Debug\netcoreapp2.2\BackEnd_zadatak.dll
+C:\Users\tijana\Desktop\BackEnd_zadatak\bin\Debug\netcoreapp2.2\BackEnd_zadatak.pdb
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.csprojAssemblyReference.cache
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.csproj.CoreCompileInputs.cache
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.RazorAssemblyInfo.cache
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.RazorAssemblyInfo.cs
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.AssemblyInfoInputs.cache
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.AssemblyInfo.cs
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.RazorTargetAssemblyInfo.cache
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.dll
+C:\Users\tijana\Desktop\BackEnd_zadatak\obj\Debug\netcoreapp2.2\BackEnd_zadatak.pdb
+C:\Users\tijana\Desktop\BackEnd_zadatak\bin\Debug\netcoreapp2.2\Backend_zadatak.xml
