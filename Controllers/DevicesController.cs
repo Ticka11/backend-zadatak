@@ -112,9 +112,9 @@ namespace BackEnd_zadatak.Controllers
         public async Task<IActionResult> GetDevicesByCriteria([FromQuery] DeviceParams deviceParams)
         {
             var devicesFromRepo = await _repo.GetDevicesByCriteria(deviceParams);
-            var devicesToReturn = _mapper.Map<IEnumerable<DeviceToReturnDto>>(devicesFromRepo);
+            // var devicesToReturn = _mapper.Map<IEnumerable<DeviceToReturnDto>>(devicesFromRepo.Devices);
 
-            return Ok(devicesToReturn);
+            return Ok(devicesFromRepo);
         }
     
     }

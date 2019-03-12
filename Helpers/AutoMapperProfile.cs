@@ -28,17 +28,26 @@ namespace BackEnd_zadatak.Helpers
                 });
 
             //mapiranje tipova uredjaja
-            CreateMap<DeviceTypeToCreateOrUpdate, DeviceType>();
-            CreateMap<DeviceType, DeviceTypeToReturnListDto>();
+            CreateMap<DeviceTypeToCreateOrUpdate, DeviceType>()
+                .ForMember(dest => dest.DeviceTypeProperty, opt => {
+                    opt.MapFrom(src => src.DeviceTypeProperties);
+                });
+            CreateMap<DeviceType, DeviceTypeToReturnListDto>()
+                .ForMember(dest => dest.ParentTypeProperties, opt => {
+                    opt.MapFrom(src => src.ParentDeviceType.DeviceTypeProperty);
+                })
+                .ForMember(dest => dest.DeviceTypeProperties, opt => {
+                    opt.MapFrom(src => src.DeviceTypeProperty);
+                });
              
             CreateMap<DeviceType, DeviceTypeToReturnSingleDto>()
-                .ForMember(dest => dest.ParentTypeProperty, opt => {
+                .ForMember(dest => dest.ParentTypeProperties, opt => {
                     opt.MapFrom(src => src.ParentDeviceType.DeviceTypeProperty);
                 })
                 .ForMember(dest => dest.ParentDeviceType, opt => {
                     opt.MapFrom(src => src.ParentDeviceType.Name);
                 })
-                 .ForMember(dest => dest.DeviceTypeProperty, opt => {
+                 .ForMember(dest => dest.DeviceTypeProperties, opt => {
                     opt.MapFrom(src => src.DeviceTypeProperty);
                 });
 

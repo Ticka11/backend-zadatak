@@ -55,6 +55,7 @@ namespace BackEnd_zadatak
                 c.IncludeXmlComments(xmlPath);
 
             });
+            services.AddCors();
 
             services.AddAutoMapper();
             services.AddScoped<IDeviceRepository, DeviceRepository>();
@@ -75,6 +76,7 @@ namespace BackEnd_zadatak
             }
 
             // app.UseHttpsRedirection();
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseMvc();
 
             app.UseSwagger();

@@ -14,7 +14,7 @@ namespace BackEnd_zadatak.Data.Repositories
         {
             _context = context;
         }
-        
+
         //kreira tip uredjaja
         public void CreateDeviceType(DeviceType deviceType)
         {
@@ -23,7 +23,7 @@ namespace BackEnd_zadatak.Data.Repositories
         public void UpdateDeviceType(DeviceType deviceType)
         {
             //izvrsava update tipa uredjaja i njegovih osobina, ukoliko ih ima
-            if(deviceType.DeviceTypeProperty != null)
+            if (deviceType.DeviceTypeProperty != null)
             {
                 _context.DeviceTypeProperties.UpdateRange(deviceType.DeviceTypeProperty);
             }
@@ -32,29 +32,29 @@ namespace BackEnd_zadatak.Data.Repositories
 
         public async Task DeleteDeviceType(int id)
         {
-            var deviceTypeToDelete = await GetDeviceType(id); 
+            var deviceTypeToDelete = await GetDeviceType(id);
 
             //brisanje tipa uredjaja nije dozvoljeno ukoliko u bazi postoji makar jedan uredjaj
             //koji je tog tipa
-          
-            if(deviceTypeToDelete != null)
+
+            if (deviceTypeToDelete != null)
             {
                 var devicesOfCurrentType = await _context.Devices
-                        .AnyAsync(d => d.DeviceType.Name == deviceTypeToDelete.Name); 
+                        .AnyAsync(d => d.DeviceType.Name == deviceTypeToDelete.Name);
 
-                if(devicesOfCurrentType)
+                if (devicesOfCurrentType)
                     throw new Exception("You cannot delete device type");
 
-            // ukoliko nema, brisemo ga zajedno sa njegovim osobinama 
+                // ukoliko nema, brisemo ga zajedno sa njegovim osobinama 
 
-                if(deviceTypeToDelete.DeviceTypeProperty != null)
+                if (deviceTypeToDelete.DeviceTypeProperty != null)
                 {
                     foreach (var typeProperty in deviceTypeToDelete.DeviceTypeProperty)
                     {
-                        _context.DeviceTypeProperties.Remove(typeProperty);    
+                        _context.DeviceTypeProperties.Remove(typeProperty);
                     }
-                }    
-                
+                }
+
                 _context.DeviceTypes.Remove(deviceTypeToDelete);
             }
             else
@@ -70,20 +70,23 @@ namespace BackEnd_zadatak.Data.Repositories
         {
             var deviceType = await _context.DeviceTypes
                         .Include(d => d.DeviceTypeProperty)
+                        .Include(d => d.ChildrenDeviceType)
                         .Include(d => d.ParentDeviceType).ThenInclude(p => p.DeviceTypeProperty)
                         .FirstOrDefaultAsync(d => d.Id == id);
-                
+
             return deviceType;
         }
 
         //vraca sve tipove uredjaja hijerarhijski
         public async Task<IEnumerable<DeviceType>> GetDeviceTypes()
         {
-            var list =  await _context.DeviceTypes
+            var list = await _context.DeviceTypes
                     .Include(d => d.ChildrenDeviceType)
+                    .Include(d => d.DeviceTypeProperty)
+                    .Include(d => d.ParentDeviceType).ThenInclude(p => p.DeviceTypeProperty)
                     .ToListAsync();
 
-                    return list.Where(d => d.ParentId == null);
+            return list.Where(d => d.ParentId == null);
         }
 
         //pozivamo ovu funkciju kada zelimo da se promjene izvrse na bazi

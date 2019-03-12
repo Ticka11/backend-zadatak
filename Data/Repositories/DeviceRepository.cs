@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using BackEnd_zadatak.Dtos;
+using BackEnd_zadatak.Dtos.DeviceDtos;
 using BackEnd_zadatak.Helpers;
 using BackEnd_zadatak.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +14,13 @@ namespace BackEnd_zadatak.Data.Repositories
     public class DeviceRepository : IDeviceRepository
     {
         private readonly DataContext _context;
-        public DeviceRepository(DataContext context)
+        private readonly IMapper _mapper;
+
+        public DeviceRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+
         }
 
         //kreira uredjaj
@@ -25,7 +32,7 @@ namespace BackEnd_zadatak.Data.Repositories
         public void UpdateDevice(Device device)
         {
             //vrsi update uredjaja i njegovih osobina, ukoliko ih ima
-            if(device.DevicePropertyValues != null)
+            if (device.DevicePropertyValues != null)
             {
                 _context.DevicePropertyValues.UpdateRange(device.DevicePropertyValues);
             }
@@ -40,14 +47,14 @@ namespace BackEnd_zadatak.Data.Repositories
                 // blok se izvrsava ako zeljeni uređaj postoji
                 // ukoliko uredjaj ima osobine, brisemo i svaku od njih
 
-                if(device.DevicePropertyValues != null)
+                if (device.DevicePropertyValues != null)
                 {
                     foreach (var property in device.DevicePropertyValues)
                     {
                         _context.DevicePropertyValues.Remove(property);
                     }
                 }
-                
+
                 _context.Devices.Remove(device);
             }
             else
@@ -66,19 +73,19 @@ namespace BackEnd_zadatak.Data.Repositories
                         .Include(d => d.DeviceType).ThenInclude(d => d.DeviceTypeProperty)
                         .Include(d => d.DeviceType).ThenInclude(d => d.ParentDeviceType).ThenInclude(d => d.DeviceTypeProperty)
                         .FirstOrDefaultAsync(d => d.Id == id);
-                        
+
             return device;
 
         }
         //vraca uredjaje u zavisnosti od vrijednosti parametara
-        public async Task<IEnumerable<Device>> GetDevicesByCriteria(DeviceParams deviceParams)
+        public async Task<DeviceListDto> GetDevicesByCriteria(DeviceParams deviceParams)
         {
-            var devices =  _context.Devices
+            var devices = _context.Devices
                                     .Include(d => d.DevicePropertyValues)
                                     .Include(d => d.DeviceType).ThenInclude(d => d.DeviceTypeProperty)
                                     .Include(d => d.DeviceType).ThenInclude(d => d.ParentDeviceType).ThenInclude(d => d.DeviceTypeProperty)
                                     .AsQueryable();
-            
+
             //ako postoji Name parametar, vraca uredjaje koji sadrze zadato ime
             if (!string.IsNullOrEmpty(deviceParams.Name))
             {
@@ -91,7 +98,7 @@ namespace BackEnd_zadatak.Data.Repositories
             {
                 var searchType = deviceParams.Type.Trim().ToLowerInvariant();
                 devices = devices.Where(d => d.DeviceType.Name.Contains(searchType));
-                
+
                 //ukoliko postoje Type i PropertyValue parametri
                 //vraca uredjaje tog tipa sa odgovarajucim vrijednostima osobina
                 if (!string.IsNullOrEmpty(deviceParams.PropertyValue))
@@ -105,21 +112,29 @@ namespace BackEnd_zadatak.Data.Repositories
 
             //ako postoji compare operator (<,>,<=,>=) i cijena, vraca odgovarajuce uredjaje
 
-            if(!string.IsNullOrEmpty(deviceParams.CompareOperator) && deviceParams.Price != null)
+            if (!string.IsNullOrEmpty(deviceParams.CompareOperator) && deviceParams.Price != null)
             {
                 switch (deviceParams.CompareOperator)
                 {
-                    case "<": devices = devices.Where(d => d.Price < deviceParams.Price);
-                    break;
-                    case ">": devices = devices.Where(d => d.Price > deviceParams.Price);
-                    break;
-                    case ">=": devices = devices.Where(d => d.Price >= deviceParams.Price);
-                    break;
-                    case "<=": devices = devices.Where(d => d.Price <= deviceParams.Price);
-                    break;
+                    case "<":
+                        devices = devices.Where(d => d.Price < deviceParams.Price);
+                        break;
+                    case ">":
+                        devices = devices.Where(d => d.Price > deviceParams.Price);
+                        break;
+                    case ">=":
+                        devices = devices.Where(d => d.Price >= deviceParams.Price);
+                        break;
+                    case "<=":
+                        devices = devices.Where(d => d.Price <= deviceParams.Price);
+                        break;
+                    case "=":
+                        devices = devices.Where(d => d.Price == deviceParams.Price);
+                        break;
 
-                    default: devices = devices.OrderByDescending(d => d.Price);
-                    break;
+                    default:
+                        devices = devices.OrderByDescending(d => d.Price);
+                        break;
                 }
             }
 
@@ -128,7 +143,12 @@ namespace BackEnd_zadatak.Data.Repositories
                                  .Skip(deviceParams.PageSize * (deviceParams.PageNumber - 1))
                                  .Take(deviceParams.PageSize)
                                  .ToListAsync();
-            return pagedDevices;
+
+            var devicesMapped = _mapper.Map<IEnumerable<DeviceToReturnDto>>(pagedDevices);
+
+            var objectToReturn = new DeviceListDto(devicesMapped, devices.Count());
+
+            return objectToReturn;
 
         }
 

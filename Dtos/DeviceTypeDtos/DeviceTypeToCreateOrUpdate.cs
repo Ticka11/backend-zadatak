@@ -8,6 +8,6 @@ namespace BackEnd_zadatak.Dtos
         public int? Id { get; set; }
         public string Name { get; set; }
         public int? ParentId { get; set; }
-        public ICollection<TypePropertyForCreationOrUpdate> DeviceTypeProperty { get; set; }
+        public ICollection<TypePropertyForCreationOrUpdate> DeviceTypeProperties { get; set; }
     }
 }

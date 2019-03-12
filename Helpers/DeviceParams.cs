@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace BackEnd_zadatak.Helpers
 {
     public class DeviceParams
@@ -10,21 +12,11 @@ namespace BackEnd_zadatak.Helpers
         //parametri za paging
         //postavljanje maksimalnog broja uredjaja po strani na 50
         //postavljanje default-nih vrijednosti za velicinu, i broj strane, ukoliko ne zadamo vrijednosti 
-        const int maxPageSize = 50;
-        public int PageNumber { get; set; } = 1;
-        private int _pageSize = 10;
+        // const int maxPageSize = 50;
+        public int PageNumber { get; set; }
 
-        public int PageSize
-        {
-            get
-            {
-                return _pageSize;
-            }
-            set
-            {
-                _pageSize = (value > maxPageSize) ? maxPageSize : value;
-            }
-        }
+        public int PageSize {get; set;}
+       
         //parametar za uporedjivanje (<, >, >= ,<=)
         public string CompareOperator { get; set; } 
         public decimal? Price { get; set; }
